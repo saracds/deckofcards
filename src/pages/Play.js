@@ -1,10 +1,10 @@
 import { useContext } from 'react'
 import { useState } from "react";
 import { playerContext } from '../context/PlayerContext'
-import { Button, Row, Col, Image } from 'react-bootstrap';
+import { Button, Row, Col, Container } from 'react-bootstrap';
 import axios from "axios";
 import useDeck from '../hooks/useDeck';
-import Card from './Card.js';
+import Cartas from './Cartas.js'
 import { IconContext } from "react-icons/lib";
 import { BsFillPlayCircleFill } from "react-icons/bs";
 
@@ -15,21 +15,25 @@ const Play = () => {
     const [deck2, setDeck2] = useState([]);
 
     const handleSetDeck = async () => {
-       
+
         const consultaAPI = async () => {
             const { data } = await axios(`http://deckofcardsapi.com/api/deck/${partida}/draw/?count=2`);
-            console.log(data);
-            setDeck1(deck1.concat(data.cards[0]));
-            setDeck2(deck2.concat(data.cards[1]));
+            
+            if (data.cards.length > 0) {
+                setDeck1(deck1.concat(data?.cards[0]));
+                setDeck2(deck2.concat(data?.cards[1]));
+            } else {
+                alert(data.error)
+            }
         };
         consultaAPI();
-        console.log(partida)
+
     };
 
     return (
-        <div>
+        <Container>
             <Row className='text-center mt-4'>
-                <Col className='border border-4 p-3' lg={6}>
+                <Col className='border' lg={6}>
                     <h3>{player.player1}</h3>
                 </Col>
 
@@ -39,23 +43,25 @@ const Play = () => {
                     </IconContext.Provider>
                 </Button>
 
-                <Col className='border border-4 p-3' lg={6}>
+                <Col className='border' lg={6}>
                     <h3>{player.player2}</h3>
                 </Col>
 
             </Row>
             <Row>
-                <Col className='border border-4 p-3' lg={6}>
-                    {deck1.map((card) => (
-                        <Card source={card.images.png} />
+                <Col className='border p-2' lg={6}>
+                    {deck1.map((card, index) => (
+                        <Cartas key={index} source={card?.images?.png} />
                     ))}
                 </Col>
-                <Col className='border border-4 p-3' lg={6}>
-                    <h3>{player.player2}</h3>
+                <Col className='border p-2' lg={6}>
+                    {deck2.map((card, index) => (
+                        <Cartas key={index} source={card?.images?.png} />
+                    ))}
                 </Col>
             </Row>
             <br />
-        </div>
+        </Container>
     )
 }
 
