@@ -30,17 +30,10 @@ const FormPlayer = () => {
         setValidated(true);
 
     };
-
     const consultarAPI = async () => {
 
         const { data } = await axios("http://deckofcardsapi.com/api/deck/new/");
-        setPartida(data.deck_id);
-    };
-
-
-    const handleClic = () => {
-        setClic(!clic);
-        console.log(clic);
+        setPartida(data);
     };
 
     return (
@@ -92,13 +85,9 @@ const FormPlayer = () => {
                     </Form.Group>
                     <br />
                     <Col md="6">
-                        <Button variant="primary" type="submit" onClick={handleClic}>Empezar</Button>
+                        <Button variant="primary" type="submit">Empezar</Button>
                     </Col>
                 </Form>
-                <hr />
-                <Col md="6">
-                    <Button variant="primary" onClick={handleClic}>Otra Vez</Button>
-                </Col>
             </div>
         </>
     );
