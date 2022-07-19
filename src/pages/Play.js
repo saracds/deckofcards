@@ -9,16 +9,16 @@ const Play = () => {
 
     const { player, partida } = useContext(playerContext);
 
-
+console.log(player)
 
     return (
         <div className='text-center'>
                 <Row className='text-center mt-4'>
                     <Col className='border border-4 p-3' lg={6}>
-                        <h3>{player.player1}</h3>
+                        {/* <h3>{player.player1}</h3> */}
                     </Col>
                     <Col className='border border-4 p-3' lg={6}>
-                        <h3>{player.player2}</h3>
+                        {/* <h3>{player.player2}</h3> */}
                     </Col>
                     <Button variant="none" className='float'>
                         <IconContext.Provider value={{ color: "464649", size: "50" }}>
@@ -28,7 +28,7 @@ const Play = () => {
                 </Row>
                 
                 <br/>
-                {partida}
+                {/* {partida} */}
         </div>
     )
 }
