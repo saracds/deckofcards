@@ -10,15 +10,15 @@ import { BsFillPlayCircleFill } from "react-icons/bs";
 const Play = () => {
 
     const { player, partida } = useContext(playerContext);
-    const [deck1, setDeck1] = useState({});
-    const [deck2, setDeck2] = useState({});
+    const [deck1, setDeck1] = useState([]);
+    const [deck2, setDeck2] = useState([]);
 
     const handleSetDeck = () =>{
         const consultaAPI = async () => {
             const { data } = await axios(`http://deckofcardsapi.com/api/deck/${partida}/draw/?count=2`);
             console.log(data[0]);
-            setDeck1(data.cards[0]);
-            setDeck1(data.cards[1]);
+            setDeck1(deck1.concat(data.cards[0]));
+            setDeck2(deck2, data.cards[1]);
             console.log(data);
         };
         consultaAPI();

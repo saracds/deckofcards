@@ -1,7 +1,6 @@
 import React,{ useContext, useState }  from 'react';
 import {GiCardAceSpades, GiCardAceHearts, GiCardAceDiamonds, GiCardAceClubs} from 'react-icons/gi';
 import { IconContext } from "react-icons/lib";
-import {AiFillPlayCircle} from 'react-icons/ai';
 import Play from './Play';
 import { Row, Col, Container } from 'react-bootstrap';
 import FormPlayer from './FormPlayer';
