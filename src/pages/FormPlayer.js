@@ -30,10 +30,11 @@ const FormPlayer = () => {
         setValidated(true);
 
     };
+    
     const consultarAPI = async () => {
 
         const { data } = await axios("http://deckofcardsapi.com/api/deck/new/");
-        setPartida(data);
+        setPartida(data.deck_id);
     };
 
     return (
