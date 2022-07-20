@@ -1,7 +1,6 @@
-import { useContext } from 'react'
-import { useState } from "react";
+import { useContext, useState, useEffect } from 'react'
 import { playerContext } from '../context/PlayerContext'
-import { Button, Row, Col, Container } from 'react-bootstrap';
+import { Button, Row, Col, Container, ThemeProvider } from 'react-bootstrap';
 import axios from "axios";
 import useDeck from '../hooks/useDeck';
 import Cartas from './Cartas.js'
@@ -16,7 +15,7 @@ const Play = () => {
     const [winer1, setWiner1] = useState([]);
     const [winer2, setWiner2] = useState([]);
     const [estado, setEstado] = useState(false);
-
+    const [temporal, setTemporal] = useState([]);
     const handleSetDeck = async () => {
 
         const consultaAPI = async () => {
@@ -25,34 +24,42 @@ const Play = () => {
             if (data.cards.length > 0) {
                 setDeck1(deck1.concat(data?.cards[0]));
                 setDeck2(deck2.concat(data?.cards[1]));
-                setWiner1(data?.cards[0]);
-                setWiner2(data?.cards[1]);
+                setTemporal(data?.cards);
             } else {
                 alert(data.error)
             }
         };
         consultaAPI();
-        handleWiner();
     };
     
-    const handleWiner = () =>{
+    useEffect(() => {
+        
+        handleSetWiner();
+        
+    }, [deck1, deck2]);
 
-        deck1.forEach(card => {
-            if(card.value === winer1.value){
-                setWiner1(winer1.concat(card));
-                console.log("funciona");
-                setEstado(true);
-            }  
-        });
+    const handleSetWiner = () => {
+        if(deck1.length > 1){
 
-        if(estado === false){
+            deck1.forEach(card => {
+                if((card.value === temporal[0].value) && (card.code !== temporal[0].code)){
+                    let temp = [temporal[0], card]
+                    setWiner1(temp);
+                    setEstado(true);
+                }  
+            });
             
-            setWiner1([]);
-            setWiner2([]);
+            
+            deck2.forEach(card => {
+                if((card.value === temporal[1].value) && (card.code !== temporal[1].code)){
+                    let temp = [temporal[1], card]
+                    setWiner2(temp);
+                    setEstado(true);
+                }  
+            });
             
         }
-        console.log(winer1);
-    }
+    };
 
     return (
         <Container>
@@ -74,7 +81,7 @@ const Play = () => {
             </Row>
             <Row>
                 <Col className='border text-center p-2' style={{height : "200px"}} lg={6} sm={6}>
-               
+                
                 </Col>
                 <Col className='border text-center p-2' style={{height : "200px"}} lg={6} sm={6}>
 

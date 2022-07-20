@@ -33,7 +33,7 @@ const FormPlayer = () => {
     
     const consultarAPI = async () => {
 
-        const { data } = await axios("http://deckofcardsapi.com/api/deck/new/");
+        const { data } = await axios("http://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1");
         setPartida(data.deck_id);
     };
 
