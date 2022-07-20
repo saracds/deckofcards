@@ -33,7 +33,7 @@ const FormPlayer = () => {
     
     const consultarAPI = async () => {
 
-        const { data } = await axios("http://deckofcardsapi.com/api/deck/new/");
+        const { data } = await axios("http://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1");
         setPartida(data.deck_id);
     };
 
@@ -85,7 +85,9 @@ const FormPlayer = () => {
                 </Form.Group>
                 <br />
                 <Col md="6">
-                    <Button variant="primary" type="submit">Empezar</Button>
+                    <Button variant="primary" type="submit">
+                        <h4>Empezar</h4>
+                    </Button>
                 </Col>
             </Form>
         </>

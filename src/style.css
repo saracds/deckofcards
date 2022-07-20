@@ -1,0 +1,11 @@
+.boton{ 
+    position: absolute;
+    left: 47.8%;
+    top: 1%;
+    width : 4%;
+}
+
+.botom:active, .boton:hover, .boton::selection, .boton:focus{
+    border: none !important;
+}
+
