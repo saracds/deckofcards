@@ -6,16 +6,20 @@ import useDeck from '../hooks/useDeck';
 import Cartas from './Cartas.js'
 import { IconContext } from "react-icons/lib";
 import { BsFillPlayCircleFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const Play = () => {
 
     const { player, partida } = useContext(playerContext);
     const [deck1, setDeck1] = useState([]);
     const [deck2, setDeck2] = useState([]);
-    const [winer1, setWiner1] = useState([]);
-    const [winer2, setWiner2] = useState([]);
+    const [card1, setCard1] = useState([]);
+    const [card2, setCard2] = useState([]);
     const [estado, setEstado] = useState(false);
     const [temporal, setTemporal] = useState([]);
+    const [winer, setWiner] = useState("");
+    const navigate = useNavigate();
+
     const handleSetDeck = async () => {
 
         const consultaAPI = async () => {
@@ -33,10 +37,54 @@ const Play = () => {
     };
     
     useEffect(() => {
-        
+
         handleSetWiner();
-        
+
     }, [deck1, deck2]);
+
+    useEffect(() => {
+        let contadorPl1 = 0;
+        let contadorPl2 = 0;
+
+        if( (card1.length === card2.length) && (card1.length > 0) ){
+            card1.forEach(card => {
+                contadorPl1 = contadorPl1 + switchSuit(card.suit);
+            });
+
+            card2.forEach(card => {
+                contadorPl2 = contadorPl2 + switchSuit(card.suit);
+            });
+
+            if(contadorPl1 > contadorPl2){
+                setWiner("P1");
+            }else{
+                setWiner("P2");
+            }
+        }
+
+    }, [estado]);
+
+    const switchSuit = (suit) =>{
+        let contador = 0;
+
+        switch (suit){
+            case "SPADES":
+                contador = contador + 3;
+                break;
+            case "DIAMONDS":
+                contador = contador + 2;
+                break;
+            case "CLUBS":
+                contador = contador + 1;
+                break;
+            case "HEARTS":
+                contador = contador + 4;
+                break;
+            default:
+                contador = 0;
+        };
+        return contador;
+    };
 
     const handleSetWiner = () => {
         if(deck1.length > 1){
@@ -44,8 +92,9 @@ const Play = () => {
             deck1.forEach(card => {
                 if((card.value === temporal[0].value) && (card.code !== temporal[0].code)){
                     let temp = [temporal[0], card]
-                    setWiner1(temp);
+                    setCard1(temp);
                     setEstado(true);
+                    setWiner("P1")
                 }  
             });
             
@@ -53,18 +102,21 @@ const Play = () => {
             deck2.forEach(card => {
                 if((card.value === temporal[1].value) && (card.code !== temporal[1].code)){
                     let temp = [temporal[1], card]
-                    setWiner2(temp);
+                    setCard2(temp);
                     setEstado(true);
+                    setWiner("P2")
                 }  
             });
             
         }
+
+
     };
 
     return (
-        <Container>
+        <Container className='text-center'>
             <Row className='text-center mt-4'>
-                <Col className='border' lg={6} sm={6}>
+                <Col className='border' lg={6} sm={6} style={{background : winer === "P1" ? "rgb(0, 228, 110)" : ""}}>
                     <h3>{player.player1}</h3>
                 </Col>
 
@@ -74,17 +126,29 @@ const Play = () => {
                     </IconContext.Provider>
                 </Button>
 
-                <Col className='border' lg={6} sm={6}>
+                <Col className='border' lg={6} sm={6} style={{background : winer === "P2" ? "rgb(0, 228, 110)" : ""}}>
                     <h3>{player.player2}</h3>
                 </Col>
 
             </Row>
             <Row>
-                <Col className='border text-center p-2' style={{height : "200px"}} lg={6} sm={6}>
-                
+                <Col className='border text-center p-2' style={{height : "150px"}} lg={6} sm={6}>
+                    {
+                        winer === "P1" ? 
+                            card1.map((card, index) => (
+                            <Cartas key={index} source={card?.images?.png} />))
+                        :
+                            ""
+                    }
                 </Col>
-                <Col className='border text-center p-2' style={{height : "200px"}} lg={6} sm={6}>
-
+                <Col className='border text-center p-2' style={{height : "150px"}} lg={6} sm={6}>
+                {
+                        winer === "P2" ? 
+                            card2.map((card, index) => (
+                            <Cartas key={index} source={card?.images?.png} />))
+                        :
+                            ""
+                    }
                 </Col>
             </Row>
             <Row>
@@ -100,6 +164,9 @@ const Play = () => {
                 </Col>
             </Row>
             <br />
+            <Button variant='primary' className='p-3' onClick={() => navigate(-1)}>
+                <h4>Jugar de nuevo</h4>
+            </Button>
         </Container>
     )
 }

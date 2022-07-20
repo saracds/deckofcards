@@ -31,8 +31,6 @@ const Home = () => {
                 </Col>
             </Row>
             <hr />
-            {/* <Play /> */}
-            <hr />
         </Container>
     )
 }

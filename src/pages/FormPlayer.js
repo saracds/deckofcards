@@ -85,7 +85,9 @@ const FormPlayer = () => {
                 </Form.Group>
                 <br />
                 <Col md="6">
-                    <Button variant="primary" type="submit">Empezar</Button>
+                    <Button variant="primary" type="submit">
+                        <h4>Empezar</h4>
+                    </Button>
                 </Col>
             </Form>
         </>
