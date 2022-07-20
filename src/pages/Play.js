@@ -7,6 +7,7 @@ import Cartas from './Cartas.js'
 import { IconContext } from "react-icons/lib";
 import { BsFillPlayCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import "../style.css";
 
 const Play = () => {
 
@@ -120,7 +121,7 @@ const Play = () => {
                     <h3>{player.player1}</h3>
                 </Col>
 
-                <Button disabled={estado == true ? "disable" : ""} variant="none" style={{ position: "absolute", width: "4%", left: "47.8%", top: "1%", hover: "none" }} onClick={handleSetDeck}>
+                <Button disabled={estado === true ? "disable" : ""} variant="none" className='boton' onClick={handleSetDeck}>
                     <IconContext.Provider value={{ color: "464649", size: "50" }}>
                         <BsFillPlayCircleFill />
                     </IconContext.Provider>
