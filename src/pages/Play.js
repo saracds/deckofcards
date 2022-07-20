@@ -47,7 +47,7 @@ const Play = () => {
             <Row>
                 <Col className='border border-4 p-3' lg={6}>
                     {deck1.map((card) => (
-                        <Card source={card.images.png} />
+                        <Card source={card.image} />
                     ))}
                 </Col>
                 <Col className='border border-4 p-3' lg={6}>
