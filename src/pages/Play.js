@@ -24,7 +24,7 @@ const Play = () => {
     const handleSetDeck = async () => {
 
         const consultaAPI = async () => {
-            const { data } = await axios(`http://deckofcardsapi.com/api/deck/${partida}/draw/?count=2`);
+            const { data } = await axios(`https://deckofcardsapi.com/api/deck/${partida}/draw/?count=2`);
             
             if (data.cards.length > 0) {
                 setDeck1(deck1.concat(data?.cards[0]));
